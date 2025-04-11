@@ -1,145 +1,4 @@
 
-// import React from "react";
-// import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as yup from "yup";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "../../firebase";
-// import { useNavigate } from "react-router-dom";
-// import {
-//   Container,
-//   TextField,
-//   Button,
-//   Typography,
-//   Box,
-//   Avatar,
-//   CssBaseline,
-//   Paper,
-// } from "@mui/material";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
-// // Validation Schema
-// const schema = yup.object().shape({
-//   name: yup.string().required("Name is required"),
-//   email: yup.string().email("Invalid email").required("Email is required"),
-//   password: yup
-//     .string()
-//     .min(6, "Password must be at least 6 characters")
-//     .required("Password is required"),
-// });
-
-// const Signup = () => {
-//   const navigate = useNavigate();
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors, isSubmitting },
-//   } = useForm({ resolver: yupResolver(schema) });
-
-//   const onSubmit = async (data) => {
-//     try {
-//       await createUserWithEmailAndPassword(auth, data.email, data.password);
-//       alert("Signup successful!");
-//       navigate("/Login");
-//     } catch (error) {
-//       alert(error.message);
-//     }
-//   };
-
-//   return (
-//     <Container component="main" maxWidth="xs">
-//       <CssBaseline />
-//       <Box
-//         sx={{
-//           minHeight: "100vh",
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "center",
-//           bgcolor: "background.default",
-//         }}
-//       >
-//         <Paper
-//           elevation={10}
-//           sx={{
-//             p: 4,
-//             borderRadius: 4,
-//             width: "100%",
-//             backgroundColor: "#f7f5fd",
-//           }}
-//         >
-//           <Box display="flex" flexDirection="column" alignItems="center">
-//             <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-//               <LockOutlinedIcon />
-//             </Avatar>
-//             <Typography component="h1" variant="h5" sx={{ fontWeight: 600 }}>
-//               Create Account
-//             </Typography>
-//           </Box>
-
-//           <Box
-//             component="form"
-//             onSubmit={handleSubmit(onSubmit)}
-//             sx={{ mt: 3 }}
-//           >
-//             <TextField
-//               fullWidth
-//               label="Name"
-//               variant="outlined"
-//               margin="normal"
-//               {...register("name")}
-//               error={!!errors.name}
-//               helperText={errors.name?.message}
-//             />
-//             <TextField
-//               fullWidth
-//               label="Email"
-//               type="email"
-//               variant="outlined"
-//               margin="normal"
-//               {...register("email")}
-//               error={!!errors.email}
-//               helperText={errors.email?.message}
-//             />
-//             <TextField
-//               fullWidth
-//               label="Password"
-//               type="password"
-//               variant="outlined"
-//               margin="normal"
-//               {...register("password")}
-//               error={!!errors.password}
-//               helperText={errors.password?.message}
-//             />
-
-//             <Button
-//               type="submit"
-//               fullWidth
-//               variant="contained"
-//               color="primary"
-//               disabled={isSubmitting}
-//               sx={{ mt: 3, mb: 2 }}
-//             >
-//               {isSubmitting ? "Signing Up..." : "Sign Up"}
-//             </Button>
-
-//             <Typography variant="body2" align="center" color="text.secondary">
-//               Already have an account?{" "}
-//               <span
-//                 onClick={() => navigate("/Login")}
-//                 style={{ color: "#3f51b5", cursor: "pointer" }}
-//               >
-//                 Log in
-//               </span>
-//             </Typography>
-//           </Box>
-//         </Paper>
-//       </Box>
-//     </Container>
-//   );
-// };
-
-// export default Signup;
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -191,13 +50,23 @@ const Signup = () => {
 
       const user = userCredential.user;
 
-     
-      await set(ref(db, "users/" + user.name), {
-        name: data.name,
-        email: data.email,
-        uid:user.uid
+      if (user && user.uid) {
+        set(ref(db, 'users/' + user.uid), {
+          email: user.email,
+          name: user.displayName ,
+          // name: user.displayName || "Anonymous",
+          uid: user.uid
+        });
+      } else {
+        console.error("User UID is undefined. Cannot write to database.");
+      }
+      
+      // await set(ref(db, "users/" + user.name), {
+      //   name: data.name,
+      //   email: data.email,
+      //   uid:user.uid
 
-      });
+      // });
 
       alert("Signup successful!");
       navigate("/Login");

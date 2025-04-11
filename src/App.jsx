@@ -3,7 +3,11 @@ import Login from './Authentication/Login/Login'
 import Signup from './Authentication/Signup/Signup'
 import { Routes,Route } from 'react-router-dom'
 import Dashboard from './Pages/Dashboard/Dashboard'
+import MovieReview from './Pages/Categories/Movie/MovieReview'
+import FoodReview from './Pages/Categories/FoodReview'
+import DressReview from './Pages/Categories/dressReview'
 import Footer from './Pages/Footer/Footer'
+
 
 function App() {
 
@@ -15,6 +19,10 @@ function App() {
     <Route path="/Login" element={<Login />}/>
     <Route path='/Dashboard' element={<Dashboard />} />  
     <Route path='/Footer' element={<Footer />}/>
+    <Route path="/MovieReview" element={<MovieReview />} />
+    <Route path="/FoodReview" element={<FoodReview />}/>
+    <Route path="/dressReview" element={<DressReview />}/>
+    {/* <Route path="" element={<ReviewCard />}/> */}
     </Routes>
     </>
   )

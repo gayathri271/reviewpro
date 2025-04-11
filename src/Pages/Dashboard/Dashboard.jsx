@@ -2,24 +2,37 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css';
 import Footer from '../Footer/Footer';
+import { useNavigate } from 'react-router-dom';
 
 
 const Dashboard = () => {
+  const navigate=useNavigate();
   return (
     <div>
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">MySite</a>
-          <div className="collapse navbar-collapse justify-content-end">
-            <ul className="navbar-nav">
-              <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="/">About</a></li>
-              <li className="nav-item"><a className="nav-link" href="/">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+  <div className="container-fluid">
+    <a className="navbar-brand" href="/">CritiCore </a>
+
+    {/* Toggler for mobile view */}
+    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch">
+      <span className="navbar-toggler-icon"></span>
+    </button>
+
+    <div className="collapse navbar-collapse justify-content-center" id="navbarSearch">
+      <form className="d-flex" role="search">
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Browse for reviews...."
+          aria-label="Search"
+          style={{ opacity: 0.5 }} 
+        />
+      </form>
+    </div>
+  </div>
+</nav>
+
 
       <div id="heroCarousel" className="carousel slide w-100" data-bs-ride="carousel">
   <div className="carousel-inner">
@@ -77,7 +90,7 @@ const Dashboard = () => {
       <div className="container-fluid text-center px-5" style={{ marginTop: "-40px", zIndex: 10, position: "relative" }}>
         <div className="row">
           {/* Food Card */}
-          <div className="col-md-4 mb-4">
+          <div className="col-md-4 mb-4" onClick={()=>navigate("/FoodReview")}>
             <div className="card h-100">
               <img src="https://passportmagazine.com/wp-content/uploads/2021/03/Peking-Duck.jpg" className="card-img-top" alt="Food" />
               <div className="card-body">
@@ -88,7 +101,7 @@ const Dashboard = () => {
           </div>
 
           {/* Movies Card */}
-          <div className="col-md-4 mb-4">
+          <div className="col-md-4 mb-4" onClick={()=>navigate("/MovieReview")}>
             <div className="card h-100">
               <img src="https://static.vecteezy.com/system/resources/thumbnails/001/254/680/small_2x/cinema-background-concept.jpg" className="card-img-top" alt="Movies" />
               <div className="card-body">
@@ -99,7 +112,7 @@ const Dashboard = () => {
           </div>
 
           {/* Dress Card */}
-          <div className="col-md-4 mb-4">
+          <div className="col-md-4 mb-4" onClick={()=>navigate("/dressReview")}>
             <div className="card h-100">
               <img src="https://ambraee.com/cdn/shop/products/78_ff3374f2-7cbd-4004-9df8-93cdbbbecd51.jpg?v=1691223586&width=1080" className="card-img-top" alt="Dress" />
               <div className="card-body">
