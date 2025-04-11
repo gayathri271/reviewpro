@@ -32,7 +32,6 @@ const schema = yup.object().shape({
 
 const Signup = () => {
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -50,24 +49,21 @@ const Signup = () => {
 
       const user = userCredential.user;
 
+      console.log(user);
+      
+
       if (user && user.uid) {
         set(ref(db, 'users/' + user.uid), {
+          role:"user",
           email: user.email,
-          name: user.displayName ,
-          // name: user.displayName || "Anonymous",
+          name: data.name,
           uid: user.uid
         });
       } else {
         console.error("User UID is undefined. Cannot write to database.");
       }
       
-      // await set(ref(db, "users/" + user.name), {
-      //   name: data.name,
-      //   email: data.email,
-      //   uid:user.uid
-
-      // });
-
+    
       alert("Signup successful!");
       navigate("/Login");
     } catch (error) {
@@ -118,6 +114,7 @@ const Signup = () => {
             <TextField
               fullWidth
               label="Name"
+              type="text"
               variant="outlined"
               margin="normal"
               {...register("name")}
