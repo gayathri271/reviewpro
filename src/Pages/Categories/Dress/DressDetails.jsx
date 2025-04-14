@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ref, onValue, push, remove, update, get } from 'firebase/database';
 import { db, auth } from '../../../firebase';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
   Card,
   CardContent,
   CardMedia,
-  Grid,
   Typography,
   Dialog,
   DialogTitle,
@@ -21,10 +21,11 @@ import {
 import { Delete, Edit } from '@mui/icons-material';
 import { onAuthStateChanged } from 'firebase/auth';
 
-const MovieDetails = () => {
+const DressDetails = () => {
   const { title } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [movieId, setMovieId] = useState('');
+  const navigate=useNavigate()
+  const [dress, setDress] = useState(null);
+  const [dressId, setDressId] = useState('');
   const [reviews, setReviews] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
@@ -51,42 +52,42 @@ const MovieDetails = () => {
   }, []);
 
   useEffect(() => {
-    const movieRef = ref(db, 'movies');
-    onValue(movieRef, (snapshot) => {
+    const dressRef = ref(db, 'dresses');
+    onValue(dressRef, (snapshot) => {
       const data = snapshot.val() || {};
-      const matchedMovie = Object.entries(data).find(
+      const matchedDress = Object.entries(data).find(
         ([, value]) => value.title.toLowerCase().replace(/\s+/g, '-') === title.toLowerCase()
       );
 
-      if (matchedMovie) {
-        const [id, movieData] = matchedMovie;
-        setMovie({ id, ...movieData });
-        setMovieId(id);
+      if (matchedDress) {
+        const [id, dressData] = matchedDress;
+        setDress({ id, ...dressData });
+        setDressId(id);
 
-        const reviewsRef = ref(db, 'reviews/movies');
+        const reviewsRef = ref(db, 'reviews/dresses');
         onValue(reviewsRef, (snap) => {
           const allReviews = snap.val() || {};
-          const movieReviews = Object.entries(allReviews)
-            .filter(([, review]) => review.movieId === id)
+          const dressReviews = Object.entries(allReviews)
+            .filter(([, review]) => review.dressId === id)
             .map(([id, review]) => ({ id, ...review }));
-          setReviews(movieReviews);
+          setReviews(dressReviews);
         });
       }
     });
   }, [title]);
 
   const handleAddOrUpdateReview = () => {
-    const reviewRef = ref(db, 'reviews/movies');
+    const reviewRef = ref(db, 'reviews/dresses');
     const { username, title, description, rating } = reviewForm;
     if (!username || !title || !description || !rating) {
       return alert('All fields are required');
     }
 
     if (editId) {
-      const reviewToUpdate = ref(db, `reviews/movies/${editId}`);
-      update(reviewToUpdate, { ...reviewForm, movieId });
+      const reviewToUpdate = ref(db, `reviews/dresses/${editId}`);
+      update(reviewToUpdate, { ...reviewForm, dressId });
     } else {
-      push(reviewRef, { ...reviewForm, movieId });
+      push(reviewRef, { ...reviewForm, dressId });
     }
 
     setReviewForm({ username: '', title: '', description: '', rating: 0 });
@@ -107,14 +108,16 @@ const MovieDetails = () => {
 
   const handleDeleteReview = (id) => {
     if (window.confirm('Are you sure you want to delete this review?')) {
-      const reviewToDelete = ref(db, `reviews/movies/${id}`);
+      const reviewToDelete = ref(db, `reviews/dresses/${id}`);
       remove(reviewToDelete);
     }
   };
+
   const handleCardClick = (review) => {
     setSelectedReview(review);
     setModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setSelectedReview(null);
     setModalOpen(false);
@@ -122,14 +125,14 @@ const MovieDetails = () => {
 
   return (
     <Box p={4}>
-      {movie && (
+      {dress && (
         <Card sx={{ maxWidth: 800, mx: 'auto', mb: 4 }}>
-          <CardMedia component="img" height="300" image={movie.image} alt={movie.title} />
+          <CardMedia component="img" height="300" image={dress.image} alt={dress.title} />
           <CardContent>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-              {movie.title}
+              {dress.title}
             </Typography>
-            <Typography>{movie.description}</Typography>
+            <Typography>{dress.description}</Typography>
           </CardContent>
         </Card>
       )}
@@ -188,93 +191,97 @@ const MovieDetails = () => {
 
       {/* Reviews */}
       <Typography variant="h6" gutterBottom>
-  Reviews
-</Typography>
+        Reviews
+      </Typography>
 
-<Box sx={{ overflowX: 'auto', display: 'flex', gap: 2, pb: 2 }}>
-  {reviews.length > 0 ? (
-    reviews.map((review) => (
-
-      <Card
-  key={review.id}
-  onClick={() => handleCardClick(review)}
-  sx={{
-    minWidth: 300,
-    maxWidth: 300,
-    flexShrink: 0,
-    position: 'relative',
-    boxShadow: 3,
-    cursor: 'pointer',
-    transition: '0.3s',
-    '&:hover': { boxShadow: 6 },
-  }}
-      >
-        <CardContent>
-          <Typography variant="subtitle2" color="text.secondary" noWrap>
-            By: {review.username}
+      <Box sx={{ overflowX: 'auto', display: 'flex', gap: 2, pb: 2 }}>
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <Card
+              key={review.id}
+              onClick={() => handleCardClick(review)}
+              sx={{
+                minWidth: 300,
+                maxWidth: 300,
+                flexShrink: 0,
+                position: 'relative',
+                boxShadow: 3,
+                cursor: 'pointer',
+                transition: '0.3s',
+                '&:hover': { boxShadow: 6 },
+              }}
+            >
+              <CardContent>
+                <Typography variant="subtitle2" color="text.secondary" noWrap>
+                  By: {review.username}
+                </Typography>
+                <Typography variant="h6" noWrap>
+                  {review.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {review.description}
+                </Typography>
+                <Box mt={1}>
+                  <Rating value={parseInt(review.rating)} readOnly />
+                </Box>
+              </CardContent>
+              {userRole === 'admin' && (
+                <Box position="absolute" top={5} right={5}>
+                  <IconButton
+                    color="primary"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditReview(review);
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    color="error"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteReview(review.id);
+                    }}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Box>
+              )}
+            </Card>
+          ))
+        ) : (
+          <Typography color="textSecondary" sx={{ textAlign: 'center', width: '100%' }}>
+            No reviews yet.
           </Typography>
-          <Typography variant="h6" noWrap>
-            {review.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {review.description}
-          </Typography>
-          <Box mt={1}>
-            <Rating value={parseInt(review.rating)} readOnly />
-          </Box>
-        </CardContent>
-        {userRole === 'admin' && (
-          <Box position="absolute" top={5} right={5}>
-            <IconButton color="primary" onClick={(e) => {
-              e.stopPropagation();
-              handleEditReview(review);
-        }}
-        >
-            <Edit />
-            </IconButton>
-            <IconButton color="error" onClick={(e) => {
-              e.stopPropagation();
-              handleDeleteReview(review.id);
-        }}
-        >
-            <Delete />
-            </IconButton>
-          </Box>
         )}
-      </Card>
-    ))
-  ) : (
-    <Typography color="textSecondary" sx={{ textAlign: 'center', width: '100%' }}>
-      No reviews yet.
-    </Typography>
-  )}
-</Box>
-<Dialog open={modalOpen} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-  <DialogTitle>{selectedReview?.title}</DialogTitle>
-  <DialogContent dividers>
-    <Typography variant="subtitle2" color="text.secondary">
-      By: {selectedReview?.username}
-    </Typography>
-    <Typography variant="body1" paragraph sx={{ mt: 1 }}>
-      {selectedReview?.description}
-    </Typography>
-    <Box sx={{ mt: 2 }}>
-      <Rating value={parseInt(selectedReview?.rating)} readOnly />
-    </Box>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseModal}>Close</Button>
-  </DialogActions>
-</Dialog>
+      </Box>
+
+      <Dialog open={modalOpen} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+        <DialogTitle>{selectedReview?.title}</DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="subtitle2" color="text.secondary">
+            By: {selectedReview?.username}
+          </Typography>
+          <Typography variant="body1" paragraph sx={{ mt: 1 }}>
+            {selectedReview?.description}
+          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <Rating value={parseInt(selectedReview?.rating)} readOnly />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
 
-export default MovieDetails;
+export default DressDetails;

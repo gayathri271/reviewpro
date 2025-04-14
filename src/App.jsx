@@ -4,11 +4,12 @@ import Signup from './Authentication/Signup/Signup'
 import { Routes,Route } from 'react-router-dom'
 import Dashboard from './Pages/Dashboard/Dashboard'
 import MovieReview from './Pages/Categories/Movie/MovieReview'
-
-import FoodReview from './Pages/Categories/FoodReview'
-import DressReview from './Pages/Categories/dressReview'
+import FoodReview from './Pages/Categories/Food/FoodReview'
 import Footer from './Pages/Footer/Footer'
 import MovieDetails from './Pages/Categories/Movie/MovieDetails'
+import FoodDetails from './Pages/Categories/Food/FoodDetails'
+import DressReview from './Pages/Categories/Dress/dressReview'
+import DressDetails from './Pages/Categories/Dress/DressDetails'
 
 
 function App() {
@@ -24,8 +25,11 @@ function App() {
     <Route path="/MovieReview" element={<MovieReview />} />
     <Route path="/MovieDetails/:title" element={<MovieDetails />} />
     <Route path="/FoodReview" element={<FoodReview />}/>
+    <Route path="/FoodDetails/:title" element={<FoodDetails />}/>
     <Route path="/dressReview" element={<DressReview />}/>
-    {/* <Route path="" element={<ReviewCard />}/> */}
+    <Route path="/dressReview/:title" element={<DressDetails />}/>
+
+
     </Routes>
     </>
   )
