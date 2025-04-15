@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ref, onValue, push, remove, update, get } from 'firebase/database';
 import { db, auth } from '../../../firebase';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -23,7 +23,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 const DressDetails = () => {
   const { title } = useParams();
-  const navigate=useNavigate()
+//   const navigate=useNavigate()
   const [dress, setDress] = useState(null);
   const [dressId, setDressId] = useState('');
   const [reviews, setReviews] = useState([]);
@@ -194,7 +194,17 @@ const DressDetails = () => {
         Reviews
       </Typography>
 
-      <Box sx={{ overflowX: 'auto', display: 'flex', gap: 2, pb: 2 }}>
+      {/* <Box sx={{ overflowX: 'auto', display: 'flex', gap: 2, pb: 2 }}> */}
+       <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-evenly',
+          gap: 8,
+          pb: 2,
+        
+        }}
+      >
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <Card

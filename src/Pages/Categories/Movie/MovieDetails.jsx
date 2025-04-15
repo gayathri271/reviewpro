@@ -191,7 +191,17 @@ const MovieDetails = () => {
   Reviews
 </Typography>
 
-<Box sx={{ overflowX: 'auto', display: 'flex', gap: 2, pb: 2 }}>
+{/* <Box sx={{ overflowX: 'auto', display: 'flex', gap: 2, pb: 2 }}> */}
+ <Box
+  sx={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+    gap: 8,
+    pb: 2,
+  
+  }}
+>
   {reviews.length > 0 ? (
     reviews.map((review) => (
 

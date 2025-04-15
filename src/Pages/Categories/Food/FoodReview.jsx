@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { ref, push, onValue, get } from 'firebase/database';
+import { ref, push, onValue, get,remove } from 'firebase/database';
 import { auth, db } from '../../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton'; // ✅ Add this line
 import {
   Box,
   Button,
@@ -18,6 +19,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const FoodReview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,6 +65,15 @@ const FoodReview = () => {
     push(foodRef, foodForm);
     setFoodForm({ title: '', image: '', description: '' });
   };
+    const handleDeleteFood = (foodId) => {
+      const confirmDelete = window.confirm('Are you sure you want to delete this FoodItem?');
+      if (confirmDelete) {
+        const foodRef = ref(db, `foods/${foodId}`);
+        remove(foodRef);
+      }
+    };
+    
+
 
   return (
     <Box sx={{ p: 4 }}>
@@ -130,8 +142,8 @@ const FoodReview = () => {
           <Grid item key={food.id}>
             <Card
               sx={{
-                width: '500px',
-                height: '500px',
+                width: '400px',
+                height: '370px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
@@ -145,6 +157,27 @@ const FoodReview = () => {
               }}
               onClick={() => navigate(`/FoodDetails/${food.title.replace(/\s+/g, '-')}`)}
             >
+              
+              {userRole === 'admin' && (
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering navigate
+                    handleDeleteFood(food.id);
+                  }}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    backgroundColor: 'rgba(255,255,255,0.7)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,1)',
+                    },
+                  }}
+                >
+                  <DeleteIcon color="error" />
+                  </IconButton>
+)}
+            
               <CardMedia
                 component="img"
                 image={food.image}

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { ref, push, onValue, get } from 'firebase/database';
+import { ref, push, onValue, get, remove } from 'firebase/database';
 import { auth, db } from '../../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +16,11 @@ import {
   DialogContent,
   DialogActions,
   Grid,
+  IconButton,
   TextField,
   Typography,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const MovieReview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,9 +66,17 @@ const MovieReview = () => {
     setMovieForm({ title: '', image: '', description: '' });
   };
 
+  const handleDeleteMovie = (movieId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this movie?');
+    if (confirmDelete) {
+      const movieRef = ref(db, `movies/${movieId}`);
+      remove(movieRef);
+    }
+  };
+
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" align="center"  gutterBottom>
+      <Typography variant="h4" align="center" gutterBottom>
         Movie Review System
       </Typography>
 
@@ -127,53 +137,73 @@ const MovieReview = () => {
 
       {/* Movie Cards */}
       <Grid container spacing={4} justifyContent="center">
-  {movies.map((movie) => (
-    <Grid item key={movie.id}>
-      <Card
-  sx={{
-    width: '500px',
-    height: '500px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    cursor: 'pointer',
-    transition: 'transform 0.3s',
-    '&:hover': {
-      transform: 'scale(1.02)',
-      boxShadow: 5,
-    },
-    margin: 'auto', // center cards if grid is smaller
-  }}
-  onClick={() => navigate(`/MovieDetails/${movie.title.replace(/\s+/g, '-')}`)}
->
-  <CardMedia
-    component="img"
-    image={movie.image}
-    alt={movie.title}
-    sx={{
-      height: '300px',
-      width: '100%',
-      objectFit: 'cover',
-    }}
-  />
-  <CardContent
-    sx={{
-      height: '200px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-    }}
-  >
-    <Typography variant="h6" component="div" noWrap>
-      {movie.title}
-    </Typography>
-  </CardContent>
-</Card>
-    </Grid>
-  ))}
-</Grid>
+        {movies.map((movie) => (
+          <Grid item key={movie.id}>
+            <Card
+              sx={{
+                width: '400px',
+                height: '370px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                cursor: 'pointer',
+                transition: 'transform 0.3s',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  boxShadow: 5,
+                },
+                position: 'relative',
+              }}
+            >
+              {userRole === 'admin' && (
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering navigate
+                    handleDeleteMovie(movie.id);
+                  }}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    backgroundColor: 'rgba(255,255,255,0.7)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,1)',
+                    },
+                  }}
+                >
+                  <DeleteIcon color="error" />
+                </IconButton>
+              )}
 
+              <CardMedia
+                component="img"
+                image={movie.image}
+                alt={movie.title}
+                sx={{
+                  height: '300px',
+                  width: '100%',
+                  objectFit: 'cover',
+                }}
+                onClick={() => navigate(`/MovieDetails/${movie.title.replace(/\s+/g, '-')}`)}
+              />
+              <CardContent
+                sx={{
+                  height: '200px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+                onClick={() => navigate(`/MovieDetails/${movie.title.replace(/\s+/g, '-')}`)}
+              >
+                <Typography variant="h6" component="div" noWrap>
+                  {movie.title}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

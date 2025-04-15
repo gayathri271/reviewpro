@@ -1,4 +1,4 @@
-import { getAuth } from "firebase/auth";
+import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
@@ -12,5 +12,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const GoogleProvider = new GoogleAuthProvider();
 export const auth = getAuth(app);
 export const db = getDatabase(app);
