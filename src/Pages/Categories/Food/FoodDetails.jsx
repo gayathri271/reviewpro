@@ -3,21 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ref, onValue, push, remove, update, get } from 'firebase/database';
 import { db, auth } from '../../../firebase';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  IconButton,
-  Rating,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia,Typography,Dialog,DialogTitle,DialogContent,DialogActions,TextField,IconButton,Rating,Divider,} from '@mui/material';
+import {BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer,CartesianGrid,} from 'recharts';
+
 import { Delete, Edit } from '@mui/icons-material';
 import { onAuthStateChanged } from 'firebase/auth';
 
@@ -27,8 +15,6 @@ const FoodDetails = () => {
   const [foodId, setFoodId] = useState('');
   const [reviews, setReviews] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedReview, setSelectedReview] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({
     username: '',
     title: '',
@@ -78,21 +64,23 @@ const FoodDetails = () => {
   const handleAddOrUpdateReview = () => {
     const reviewRef = ref(db, 'reviews/foods');
     const { username, title, description, rating } = reviewForm;
+  
     if (!username || !title || !description || !rating) {
       return alert('All fields are required');
     }
-
+  
     if (editId) {
       const reviewToUpdate = ref(db, `reviews/foods/${editId}`);
       update(reviewToUpdate, { ...reviewForm, foodId });
     } else {
       push(reviewRef, { ...reviewForm, foodId });
     }
-
+  
     setReviewForm({ username: '', title: '', description: '', rating: 0 });
     setEditId(null);
     setIsModalOpen(false);
   };
+
 
   const handleEditReview = (review) => {
     setReviewForm({
@@ -112,20 +100,30 @@ const FoodDetails = () => {
     }
   };
 
-  const handleCardClick = (review) => {
-    setSelectedReview(review);
-    setModalOpen(true);
-  };
+  // Ratings grouped by label
+const ratingLabels = {
+  5: 'Excellent',
+  4: 'Good',
+  3: 'Average',
+  2: 'Poor',
+  1: 'Terrible',
+};
 
-  const handleCloseModal = () => {
-    setSelectedReview(null);
-    setModalOpen(false);
-  };
+// Real-time rating breakdown
+const styledRatingBreakdown = [5, 4, 3, 2, 1].map((rating) => ({
+  label: ratingLabels[rating],
+  count: reviews.filter((r) => parseInt(r.rating) === rating).length,
+}));
+
+// Calculate average rating
+const totalRating = reviews.reduce((acc, r) => acc + parseInt(r.rating), 0);
+const averageRating = reviews.length ? totalRating / reviews.length : 0;
+
 
   return (
     <Box p={4}>
       {food && (
-        <Card sx={{ maxWidth: 800, mx: 'auto', mb: 4 }}>
+        <Card sx={{ maxWidth: 1000, mx: 'auto', mb: 4 }}>
           <CardMedia component="img" height="300" image={food.image} alt={food.title} />
           <CardContent>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
@@ -136,13 +134,102 @@ const FoodDetails = () => {
         </Card>
       )}
 
-      <Box textAlign="center" mb={3}>
+      {/* Header */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Typography variant="h5" fontWeight="bold">Reviews</Typography>
         <Button variant="contained" onClick={() => setIsModalOpen(true)} color="primary">
-          Add Review
+          Write a Review
         </Button>
       </Box>
 
-      {/* Review Modal */}
+      {/* Two-part layout */}
+      <Box sx={{ display: 'flex', gap: 4, height: '500px' }}>
+        {/* Left Summary Box */}
+        <Box
+          sx={{
+            width: '30%',
+            p: 3,
+            backgroundColor: '#f9f9f9',
+            borderRadius: 2,
+            boxShadow: 1,
+          }}
+        >
+<Typography variant="h6" fontWeight="bold" gutterBottom>
+  All reviews ({reviews.length})
+</Typography>
+<Box display="flex" alignItems="center" gap={1} mb={1}>
+  <Typography variant="h4" fontWeight="bold">{averageRating.toFixed(1)}</Typography>
+  <Rating value={averageRating} precision={0.1} readOnly />
+  <Typography>({reviews.length})</Typography>
+</Box>
+
+{styledRatingBreakdown.map((item, index) => (
+  <Box key={index} display="flex" alignItems="center" mb={1}>
+    <Typography sx={{ width: 90 }}>{item.label}</Typography>
+    <Box sx={{ flexGrow: 1, mx: 1, height: 10, backgroundColor: '#e0e0e0', borderRadius: 5 }}>
+      <Box
+        sx={{
+          width: `${(item.count / reviews.length) * 100}%`,
+          height: '100%',
+          backgroundColor: '#00aa6c',
+          borderRadius: 5,
+        }}
+      />
+    </Box>
+    <Typography width={30}>{item.count}</Typography>
+  </Box>
+))}
+
+        </Box>
+
+        {/* Right Review List */}
+        <Box
+          sx={{
+            width: '65%',
+            p: 2,
+            backgroundColor: '#fff',
+            borderRadius: 2,
+            boxShadow: 1,
+            overflowY: 'auto',
+          }}
+        >
+          {reviews.length > 0 ? (
+  reviews.map((review) => (
+    <Box key={review.id} mb={3} position="relative">
+      {userRole === 'admin' && (
+        <Box position="absolute" top={0} right={0}>
+          <IconButton size="small" color="primary" onClick={() => handleEditReview(review)}>
+            <Edit fontSize="small" />
+          </IconButton>
+          <IconButton size="small" color="error" onClick={() => handleDeleteReview(review.id)}>
+            <Delete fontSize="small" />
+          </IconButton>
+        </Box>
+      )}
+
+      <Box>
+        <Typography fontWeight="bold">{review.username}</Typography>
+        <Rating value={parseInt(review.rating)} readOnly size="medium" />
+        <Typography variant="subtitle1" fontWeight="medium" mt={1}>
+          {review.title}
+        </Typography>
+        <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+          {review.description}
+        </Typography>
+      </Box>
+
+      <Divider sx={{ my: 2 }} />
+    </Box>
+  ))
+) : (
+  <Typography color="textSecondary" align="center">
+    No reviews yet.
+  </Typography>
+)}
+        </Box>
+      </Box>
+
+      {/* Modal */}
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>{editId ? 'Edit Review' : 'Add Review'}</DialogTitle>
         <DialogContent>
@@ -187,111 +274,10 @@ const FoodDetails = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* Reviews */}
-      <Typography variant="h6" gutterBottom>
-        Reviews
-      </Typography>
-
-  <Box
-  sx={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-    gap: 8,
-    pb: 2,
-  
-  }}
->
-
-    
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <Card
-              key={review.id}
-              onClick={() => handleCardClick(review)}
-              sx={{
-                minWidth: 300,
-                maxWidth: 300,
-                flexShrink: 0,
-                position: 'relative',
-                boxShadow: 3,
-                cursor: 'pointer',
-                transition: '0.3s',
-                '&:hover': { boxShadow: 6 },
-              }}
-            >
-              <CardContent>
-                <Typography variant="subtitle2" color="text.secondary" noWrap>
-                  By: {review.username}
-                </Typography>
-                <Typography variant="h6" noWrap>
-                  {review.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {review.description}
-                </Typography>
-                <Box mt={1}>
-                  <Rating value={parseInt(review.rating)} readOnly />
-                </Box>
-              </CardContent>
-              {userRole === 'admin' && (
-                <Box position="absolute" top={5} right={5}>
-                  <IconButton
-                    color="primary"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditReview(review);
-                    }}
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton
-                    color="error"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteReview(review.id);
-                    }}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Box>
-              )}
-            </Card>
-          ))
-        ) : (
-          <Typography color="textSecondary" sx={{ textAlign: 'center', width: '100%' }}>
-            No reviews yet.
-          </Typography>
-        )}
-      </Box>
-
-      <Dialog open={modalOpen} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-        <DialogTitle>{selectedReview?.title}</DialogTitle>
-        <DialogContent dividers>
-          <Typography variant="subtitle2" color="text.secondary">
-            By: {selectedReview?.username}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ mt: 1 }}>
-            {selectedReview?.description}
-          </Typography>
-          <Box sx={{ mt: 2 }}>
-            <Rating value={parseInt(selectedReview?.rating)} readOnly />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal}>Close</Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };
 
 export default FoodDetails;
+
+

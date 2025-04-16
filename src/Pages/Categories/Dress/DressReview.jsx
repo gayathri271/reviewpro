@@ -75,7 +75,7 @@ const DressReview = () => {
   return (
     <Box sx={{ p: 4 }}>
       <Typography variant="h4" align="center" gutterBottom>
-        Dress Review System
+        Clothing Review System
       </Typography>
 
       {userRole === 'admin' && (

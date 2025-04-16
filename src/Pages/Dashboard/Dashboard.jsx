@@ -1,12 +1,32 @@
-import React from 'react';
+import React,{useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css';
 import Footer from '../Footer/Footer';
 import { useNavigate } from 'react-router-dom';
+import HeroBanner from '../HeroBanner/HeroBanner'; // Adjust path if needed
+
 
 
 const Dashboard = () => {
+  const [searchTerm,setSearchTerm]=useState('')
   const navigate=useNavigate();
+  
+  const handleSearch=(e)=>{
+    e.preventDefault();
+    const term=searchTerm.trim().toLowerCase();
+    
+    if(term.includes('movie')){
+      navigate('/MovieReview');
+    }else if (term.includes('food')){
+      navigate('/FoodReview');
+    }else if(term.includes('dress') || term.includes('fashion')){
+      navigate('/DressReview')
+    }else{
+      alert('No matching category found!')
+    }
+    }
+
+
   return (
     <div>
       {/* Navbar */}
@@ -20,12 +40,14 @@ const Dashboard = () => {
     </button>
 
     <div className="collapse navbar-collapse justify-content-center" id="navbarSearch">
-      <form className="d-flex" role="search">
+      <form className="d-flex" role="search" onSubmit={handleSearch}>
         <input
           className="form-control me-2"
           type="search"
           placeholder="Browse for reviews...."
           aria-label="Search"
+          value={searchTerm}
+          onChange={(e)=>setSearchTerm(e.target.value)}
           style={{ opacity: 0.5 }} 
         />
       </form>
@@ -39,8 +61,7 @@ const Dashboard = () => {
     {/* Food */}
     <div className="carousel-item active">
       <img
-      
-        src="https://iso.500px.com/wp-content/uploads/2015/12/food_cover.jpg"
+        src="https://www.deputy.com/uploads/2018/10/The-Most-Popular-Menu-Items-That-You-should-Consider-Adding-to-Your-Restaurant_Content-image1-min-1024x569.png"
         className="d-block w-100"
         alt="Food"
       />
@@ -85,6 +106,7 @@ const Dashboard = () => {
     <span className="carousel-control-next-icon"></span>
   </button>
 </div>
+<HeroBanner />
 
       {/* Themed Cards */}
       <div className="container-fluid text-center px-5" style={{ marginTop: "-40px", zIndex: 10, position: "relative" }}>
@@ -116,7 +138,7 @@ const Dashboard = () => {
             <div className="card h-100">
               <img src="https://ambraee.com/cdn/shop/products/78_ff3374f2-7cbd-4004-9df8-93cdbbbecd51.jpg?v=1691223586&width=1080" className="card-img-top" alt="Dress" />
               <div className="card-body">
-                <h5 className="card-title">Dress</h5>
+                <h5 className="card-title">Fashion</h5>
                 <p className="card-text">Explore fashion trends and style guides.</p>
               </div>
             </div>
@@ -129,5 +151,8 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
 
 
