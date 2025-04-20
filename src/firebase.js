@@ -2,6 +2,7 @@ import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyCfP86R3-8mWZh6AArWncQv_ZnSMdo1O80",
   authDomain: "reviewproject-154e4.firebaseapp.com",
@@ -15,3 +16,6 @@ const app = initializeApp(firebaseConfig);
 const GoogleProvider = new GoogleAuthProvider();
 export const auth = getAuth(app);
 export const db = getDatabase(app);
+
+
+
