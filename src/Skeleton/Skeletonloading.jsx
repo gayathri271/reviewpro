@@ -1,5 +1,5 @@
 import Skeleton from 'react-loading-skeleton'; // Correct import
-import 'react-loading-skeleton/dist/skeleton.css'; // Make sure to import CSS for styles
+
 
 const SkeletonLoader = () => {
   return (
