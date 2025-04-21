@@ -13,7 +13,7 @@ import DressDetails from './Pages/Categories/Dress/DressDetails'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LaunchPage from './Authentication/LaunchPage/LaunchPage'
-import SkeletonLoader from './Skeleton/Skeleton'
+// import SkeletonLoader from './Skeleton/Skeleton'
 import ProtectedRoute from './Authentication/ProtectedRoutes/ProtectedRoutes'
 
 
