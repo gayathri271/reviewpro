@@ -327,6 +327,30 @@ const Dashboard = () => {
             </div>
           </div>
           {/* Other carousel items */}
+          <div className="carousel-item">
+       <img
+        src="https://www.pinkvilla.com/images/2025-04/703972861_madsquare-6-days-breakeven-main-image.jpg"
+        className="d-block w-100"
+        alt="Movies"
+      />
+      <div className="carousel-caption d-none d-md-block">
+        <h1>Movie Magic</h1>
+        <p>Lights, camera, entertainment!</p>
+      </div>
+    </div>
+
+    {/* Fashion */}
+    <div className="carousel-item">
+      <img
+        src="https://www.shutterstock.com/image-photo/fashion-young-african-girl-black-600nw-1420132757.jpg"
+        className="d-block w-100"
+        alt="Fashion"
+      />
+      <div className="carousel-caption d-none d-md-block">
+        <h1>Trendy Fashion</h1>
+        <p>Style that speaks volumes.</p>
+      </div>
+    </div>
         </div>
       </div>
 
