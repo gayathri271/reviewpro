@@ -19,30 +19,7 @@ import ProtectedRoute from './Authentication/ProtectedRoutes/ProtectedRoutes'
 
 
 
-// function App() {
 
-//   return (
-//     <>
-//     {/* <LaunchPage /> */}
-//     <Routes>
-//     {/* <Route pa/th="/" element={<h1>Welcome to the Review Platform</h1>} /> */}
-//     <Route path="/" element={<LaunchPage />}/>  
-//     <Route path="/Signup" element={<Signup />} />
-//     <Route path="/Login" element={<Login />}/>
-//     <Route path='/Dashboard' element={<Dashboard />} />  
-//     <Route path='/Footer' element={<Footer />}/>
-//     <Route path="/MovieReview" element={<MovieReview />} />
-//     <Route path="/MovieDetails/:title" element={<MovieDetails />} />
-//     <Route path="/FoodReview" element={<FoodReview />}/>
-//     <Route path="/FoodDetails/:title" element={<FoodDetails />}/>
-//     <Route path="/dressReview" element={<DressReview/>}/>
-//     <Route path="/dressDetails/:title" element={<DressDetails />}/>
-
-//     </Routes>
-//     <ToastContainer position="top-right" autoClose={3000} />
-//     </>
-//   )
-// }
 
 function App() {
   return (
