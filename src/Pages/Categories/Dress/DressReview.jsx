@@ -259,6 +259,7 @@ import {
   Skeleton, // Import Skeleton component
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Navbar from '../../Navbar/Navbar';
 
 const DressReview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -323,12 +324,7 @@ const DressReview = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">CritiCore</a>
-        </div>
-      </nav>
-
+    <Navbar />
       <Box sx={{ p: 4 }}>
         <Typography variant="h4" align="center" gutterBottom>
           Clothing Review System

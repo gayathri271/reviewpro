@@ -262,6 +262,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../../Footer/Footer';
+import Navbar from '../../Navbar/Navbar';
 
 const FoodReview = () => {
   const [foods, setFoods] = useState([]);
@@ -322,11 +323,7 @@ const FoodReview = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">CritiCore </a>
-        </div>
-      </nav>
+      <Navbar />
       <Box sx={{ p: 4 }}>
         <Typography variant="h4" align="center" gutterBottom>
           Food Review System

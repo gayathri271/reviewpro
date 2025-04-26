@@ -14,10 +14,12 @@
 // } from "@mui/material";
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // import { useNavigate } from "react-router-dom";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 // const Login = () => {
 //   const [login, setLogin] = useState({ email: "", password: "" });
-//   const navigate=useNavigate()
+//   const navigate = useNavigate();
 
 //   const handleDetails = (e) => {
 //     setLogin({ ...login, [e.target.name]: e.target.value });
@@ -28,17 +30,18 @@
 //     const { email, password } = login;
 //     try {
 //       await signInWithEmailAndPassword(auth, email, password);
-//       alert("Logged in successfully");
-//       navigate("/Dashboard");
+//       toast.success("Logged in successfully!");
+//       setTimeout(() => navigate("/Dashboard"), 2000); // delay to show toast
 //     } catch (err) {
 //       console.error(err);
-//       alert("Login failed. Please check your credentials.");
+//       toast.error("Login failed. Please check your credentials.");
 //     }
 //   };
 
 //   return (
 //     <Container component="main" maxWidth="xs">
 //       <CssBaseline />
+//       <ToastContainer position="top-right" autoClose={3000} />
 //       <Box
 //         sx={{
 //           minHeight: "100vh",
@@ -64,7 +67,7 @@
 //               backgroundColor: "#ffffff",
 //               transition: "0.4s ease-in-out",
 //               "&:hover": {
-//                 boxShadow: "0 0 30px rgba(248, 87, 166, 0.4)", // peachy coral hover glow
+//                 boxShadow: "0 0 30px rgba(248, 87, 166, 0.4)",
 //               },
 //             }}
 //           >
@@ -77,7 +80,12 @@
 //               >
 //                 <LockOutlinedIcon />
 //               </Avatar>
-//               <Typography component="h1" variant="h5" fontWeight="bold" color="#f857a6">
+//               <Typography
+//                 component="h1"
+//                 variant="h5"
+//                 fontWeight="bold"
+//                 color="#f857a6"
+//               >
 //                 Log In
 //               </Typography>
 //             </Box>
@@ -117,11 +125,24 @@
 //               >
 //                 Login
 //               </Button>
+//               <Box sx={{ height: 16 }} />
+//                           <Typography variant="body2" align="center" color="text.secondary">
+//                             Don't have an account?{" "}
+//                             <span
+//                               onClick={() => navigate("/Signup")}
+//                               style={{ color: "#f857a6", cursor: "pointer" }}
+//                             >
+//                               Sign up
+//                             </span>
+//                           </Typography>
+                          
 //             </Box>
 //           </Paper>
 //         </Box>
 //       </Box>
+      
 //     </Container>
+
 //   );
 // };
 
@@ -146,7 +167,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [login, setLogin] = useState({ email: "", password: "" });
+  const [login, setLogin] = useState({
+    email: "gayathriratlavath@gmail.com", // User credentials
+    password: "123456",
+  });
   const navigate = useNavigate();
 
   const handleDetails = (e) => {
@@ -159,11 +183,19 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Logged in successfully!");
-      setTimeout(() => navigate("/Dashboard"), 2000); // delay to show toast
+      setTimeout(() => navigate("/Dashboard"), 2000);
     } catch (err) {
       console.error(err);
       toast.error("Login failed. Please check your credentials.");
     }
+  };
+
+  const fillGuestCredentials = () => {
+    // Pre-fill Guest Admin credentials
+    setLogin({
+      email: "gayathri@gmail.com",
+      password: "123456",
+    });
   };
 
   return (
@@ -226,6 +258,7 @@ const Login = () => {
                 fullWidth
                 variant="outlined"
                 margin="normal"
+                value={login.email}
                 onChange={handleDetails}
               />
               <TextField
@@ -235,8 +268,11 @@ const Login = () => {
                 fullWidth
                 variant="outlined"
                 margin="normal"
+                value={login.password}
                 onChange={handleDetails}
               />
+
+              {/* Login button */}
               <Button
                 type="submit"
                 fullWidth
@@ -253,6 +289,37 @@ const Login = () => {
               >
                 Login
               </Button>
+
+              {/* Guest Admin button — new line */}
+              <Button
+                type="button"
+                fullWidth
+                variant="outlined"
+                sx={{
+                  mt: 2,
+                  fontWeight: "600",
+                  color: "#f857a6",
+                  borderColor: "#f857a6",
+                  "&:hover": {
+                    borderColor: "#ff6e89",
+                    color: "#ff6e89",
+                  },
+                }}
+                onClick={fillGuestCredentials}
+              >
+                Guest Admin
+              </Button>
+
+              <Box sx={{ height: 16 }} />
+              <Typography variant="body2" align="center" color="text.secondary">
+                Don't have an account?{" "}
+                <span
+                  onClick={() => navigate("/Signup")}
+                  style={{ color: "#f857a6", cursor: "pointer" }}
+                >
+                  Sign up
+                </span>
+              </Typography>
             </Box>
           </Paper>
         </Box>
@@ -262,4 +329,3 @@ const Login = () => {
 };
 
 export default Login;
-

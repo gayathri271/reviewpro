@@ -15,6 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import LaunchPage from './Authentication/LaunchPage/LaunchPage'
 // import SkeletonLoader from './Skeleton/Skeleton'
 import ProtectedRoute from './Authentication/ProtectedRoutes/ProtectedRoutes'
+import Navbar from './Pages/Navbar/Navbar'
+// import Navbar from './Pages/Navbar/Navbar'
+
 
 
 
@@ -29,6 +32,7 @@ function App() {
         <Route path="/" element={<LaunchPage />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Navbar" element={<Navbar />}/>
         <Route path="/Footer" element={<Footer />} />
 
         {/* Protected Routes */}

@@ -370,6 +370,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { onAuthStateChanged } from 'firebase/auth';
 import Footer from '../../Footer/Footer';
 import { toast } from 'react-toastify';
+import Navbar from '../../Navbar/Navbar';
 
 const FoodDetails = () => {
   const { title } = useParams();
@@ -466,9 +467,7 @@ const FoodDetails = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid"><a className="navbar-brand" href="/">CritiCore </a></div>
-      </nav>
+      <Navbar />
       <Box p={4}>
         {/* Skeleton loading for food details */}
         {!food ? (

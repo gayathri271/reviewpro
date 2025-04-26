@@ -222,15 +222,17 @@ import './Dashboard.css';
 import Footer from '../Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import HeroBanner from '../HeroBanner/HeroBanner'; 
-import { getAuth, signOut } from "firebase/auth";
-import { toast, ToastContainer } from 'react-toastify';
+// import { getAuth, signOut } from "firebase/auth";
+// import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Modal, Button } from 'react-bootstrap';
 import SkeletonLoader from '../../Skeleton/Skeleton'; // Ensure you have this component
+import Navbar from '../Navbar/Navbar';
 
 
 const Dashboard = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
 
@@ -241,20 +243,6 @@ const Dashboard = () => {
     }, 2000); // Simulate a 2-second delay
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const term = searchTerm.trim().toLowerCase();
-
-    if (term.includes('movie')) {
-      navigate('/MovieReview');
-    } else if (term.includes('food')) {
-      navigate('/FoodReview');
-    } else if (term.includes('dress') || term.includes('fashion')) {
-      navigate('/DressReview');
-    } else {
-      alert('No matching category found!');
-    }
-  };
 
   const scrollToCards = () => {
     const cardsSection = document.getElementById('cards');
@@ -263,72 +251,29 @@ const Dashboard = () => {
     }
   };
 
-  const auth = getAuth();
-
-  const handleShowLogoutModal = () => setShowLogoutModal(true);
-  const handleCloseLogoutModal = () => setShowLogoutModal(false);
-
-  const handleConfirmLogout = () => {
-    signOut(auth)
-      .then(() => {
-        toast.success('Logout Successful!');
-        navigate("/login");
-      })
-      .catch((error) => {
-        toast.error("Logout Failed!");
-        console.error("Logout Error:", error);
-      });
-    setShowLogoutModal(false);
-  };
-
   return (
     <div>
       {/* Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">CritiCore</a>
-
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse justify-content-between" id="navbarSearch">
-            <form className="d-flex mx-auto" role="search" onSubmit={handleSearch}>
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Browse for reviews...."
-                aria-label="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ opacity: 0.5 }}
-              />
-            </form>
-
-            <button className="btn btn-outline-light" onClick={handleShowLogoutModal} style={{ whiteSpace: 'nowrap' }}>
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
-
+      <Navbar />
+      
       <div id="heroCarousel" className="carousel slide w-100" data-bs-ride="carousel">
-        <div className="carousel-inner">
-          {/* Food */}
-          <div className="carousel-item active">
-            <img
-              src="https://www.deputy.com/uploads/2018/10/The-Most-Popular-Menu-Items-That-You-should-Consider-Adding-to-Your-Restaurant_Content-image1-min-1024x569.png"
-              className="d-block w-100"
-              alt="Food"
-            />
-            <div className="carousel-caption d-none d-md-block">
-              <h1>Food Delights</h1>
-              <p>Delicious bites and exotic dishes.</p>
-            </div>
-          </div>
-          {/* Other carousel items */}
-          <div className="carousel-item">
-       <img
+  <div className="carousel-inner">
+    {/* Food */}
+    <div className="carousel-item active">
+      <img
+        src="https://www.deputy.com/uploads/2018/10/The-Most-Popular-Menu-Items-That-You-should-Consider-Adding-to-Your-Restaurant_Content-image1-min-1024x569.png"
+        className="d-block w-100"
+        alt="Food"
+      />
+      <div className="carousel-caption d-none d-md-block">
+        <h1>Food Delights</h1>
+        <p>Delicious bites and exotic dishes.</p>
+      </div>
+    </div>
+
+    {/* Movies */}
+    <div className="carousel-item">
+      <img
         src="https://www.pinkvilla.com/images/2025-04/703972861_madsquare-6-days-breakeven-main-image.jpg"
         className="d-block w-100"
         alt="Movies"
@@ -351,8 +296,20 @@ const Dashboard = () => {
         <p>Style that speaks volumes.</p>
       </div>
     </div>
-        </div>
-      </div>
+  </div>
+
+  {/* Carousel Controls */}
+  <button className="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span className="visually-hidden">Previous</span>
+  </button>
+  <button className="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+    <span className="visually-hidden">Next</span>
+  </button>
+</div>
+
+
 
       <HeroBanner onExploreClick={scrollToCards} />
 
@@ -397,7 +354,7 @@ const Dashboard = () => {
       )}
 
       {/* Logout Confirmation Modal */}
-      <Modal show={showLogoutModal} onHide={handleCloseLogoutModal} centered>
+      {/* <Modal show={showLogoutModal} onHide={handleCloseLogoutModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Logout</Modal.Title>
         </Modal.Header>
@@ -410,7 +367,7 @@ const Dashboard = () => {
             Logout
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
 
       {/* Toast Notifications */}
       <ToastContainer position="top-right" autoClose={3000} />

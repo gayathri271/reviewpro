@@ -360,6 +360,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { onAuthStateChanged } from 'firebase/auth';
 import Footer from '../../Footer/Footer';
 import { toast } from 'react-toastify';
+import Navbar from '../../Navbar/Navbar';
 
 const DressDetails = () => {
   const { title } = useParams();
@@ -486,11 +487,7 @@ const DressDetails = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">CritiCore</a>
-        </div>
-      </nav>
+      <Navbar />
       <Box p={4}>
         {dress && (
           <Card sx={{ maxWidth: 1000, mx: 'auto', mb: 4 }}>
@@ -621,68 +618,18 @@ const DressDetails = () => {
             )}
           </Box>
         </Box>
-
-        <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="sm" fullWidth PaperProps={{
-            sx: {
-              borderRadius: 4,
-              p: 2,
-              backgroundColor: '#fff',
-            },
-          }}
-        >
-          <DialogTitle
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '1.5rem',
-              textAlign: 'center',
-              pb: 0,
-            }}
-          >
-            {editId ? 'Edit Review' : 'Add Review'}
-          </DialogTitle>
-        
-          <DialogContent sx={{ mt: 1 }}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Review Title"
-              variant="outlined"
-              value={reviewForm.title}
-              onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
-              sx={{ borderRadius: 2 }}
-            />
-        
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Review Description"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={reviewForm.description}
-              onChange={(e) => setReviewForm({ ...reviewForm, description: e.target.value })}
-              sx={{ borderRadius: 2 }}
-            />
-        
-            <Box mt={2}>
-              <Typography variant="subtitle2">Rating</Typography>
-              <Rating
-                value={reviewForm.rating}
-                onChange={(_, newValue) => setReviewForm({ ...reviewForm, rating: newValue })}
-                size="large"
-              />
-            </Box>
-          </DialogContent>
-        
-          <DialogActions>
-            <Button variant="text" onClick={() => setIsModalOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleAddOrUpdateReview}>
-              {editId ? 'Update' : 'Submit'}
-            </Button>
-          </DialogActions>
-        </Dialog>
+                <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 4, p: 2, backgroundColor: '#fff' } }}>
+                  <DialogTitle sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center', pb: 0 }}>{editId ? 'Edit Review' : 'Add Review'}</DialogTitle>
+                  <DialogContent sx={{ mt: 1 }}>
+                    <TextField fullWidth margin="normal" label="Review Title" variant="outlined" value={reviewForm.title} onChange={e => setReviewForm({ ...reviewForm, title: e.target.value })} sx={{ borderRadius: 2 }} />
+                    <TextField fullWidth margin="normal" label="Description" variant="outlined" multiline rows={4} value={reviewForm.description} onChange={e => setReviewForm({ ...reviewForm, description: e.target.value })} sx={{ borderRadius: 2 }} />
+                    <Box mt={2}><Typography component="legend" fontWeight="medium">Rating</Typography><Rating name="rating" value={+reviewForm.rating} onChange={(e, v) => setReviewForm({ ...reviewForm, rating: v || 0 })} size="large" /></Box>
+                  </DialogContent>
+                  <DialogActions sx={{ justifyContent: 'space-between', px: 3, pb: 2 }}>
+                    <Button onClick={() => setIsModalOpen(false)} variant="outlined" sx={{ borderRadius: 3, textTransform: 'none', fontWeight: 500 }}>Cancel</Button>
+                    <Button onClick={handleAddOrUpdateReview} variant="contained" sx={{ backgroundColor: '#ff5858', '&:hover': { backgroundColor: '#e64a4a' }, borderRadius: 3, textTransform: 'none', fontWeight: 500, color: '#fff', px: 3 }}>{editId ? 'Update' : 'Post a review'}</Button>
+                  </DialogActions>
+                </Dialog>
       </Box>
       <Footer />
     </>

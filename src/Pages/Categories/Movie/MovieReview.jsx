@@ -232,6 +232,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from '../../Navbar/Navbar';
 
 const MovieReview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -292,11 +293,12 @@ const MovieReview = () => {
   return (
     <>
       <ToastContainer />
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">CritiCore</a>
         </div>
-      </nav>
+      </nav> */}
+      <Navbar />
 
       <Box sx={{ p: 4 }}>
         <Typography variant="h4" align="center" gutterBottom>

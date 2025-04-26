@@ -1,0 +1,42 @@
+ /* Default styles */
+.navbar-brand {
+    font-size: 1.5rem;
+  }
+  
+  .navbar .form-control {
+    width: 250px;
+  }
+  
+  /* Media Query for 768px and below (Tablet) */
+  @media (max-width: 768px) {
+    .navbar .form-control {
+      width: 180px;
+    }
+  
+    .navbar-brand {
+      font-size: 1.3rem;
+    }
+  
+    .btn-outline-light {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Media Query for 320px and below (Mobile) */
+  @media (max-width: 320px) {
+    .navbar .form-control {
+      width: 120px;
+      font-size: 0.8rem;
+    }
+  
+    .navbar-brand {
+      font-size: 1.1rem;
+    }
+  
+    .btn-outline-light {
+      padding: 4px 10px;
+      font-size: 0.8rem;
+    }
+  }
+  
