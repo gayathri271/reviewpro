@@ -450,15 +450,15 @@ const DressDetails = () => {
     setIsModalOpen(false);
   };
 
-  const handleEditReview = (review) => {
-    setReviewForm({
-      title: review.title,
-      description: review.description,
-      rating: review.rating,
-    });
-    setEditId(review.id);
-    setIsModalOpen(true);
-  };
+  // const handleEditReview = (review) => {
+  //   setReviewForm({
+  //     title: review.title,
+  //     description: review.description,
+  //     rating: review.rating,
+  //   });
+  //   setEditId(review.id);
+  //   setIsModalOpen(true);
+  // };
 
   const handleDeleteReview = (id) => {
     if (window.confirm('Are you sure you want to delete this review?')) {
@@ -501,19 +501,26 @@ const DressDetails = () => {
 
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant="h6">Reviews</Typography>
-          <Button variant="contained" onClick={() => setIsModalOpen(true)}  sx={{
-              backgroundColor: '#ff5858',
-              '&:hover': {
-                backgroundColor: '#e64a4a',
-              },
-              borderRadius: 2,
-              textTransform: 'none',
-              fontWeight: 520,
-              color: '#fff',
-              px: 3,
-            }}>
-            Write a Review
-          </Button>
+          <Button
+  variant="contained"
+  onClick={() => setIsModalOpen(true)}
+  disabled={userRole === 'admin'}   // 👈 disables for admin
+  sx={{
+    backgroundColor: '#ff5858',
+    '&:hover': {
+      backgroundColor: '#e64a4a',
+    },
+    borderRadius: 2,
+    textTransform: 'none',
+    fontWeight: 520,
+    color: '#fff',
+    px: 3,
+    opacity: userRole === 'admin' ? 0.6 : 1,  // Optional: dimmed look for disabled
+  }}
+>
+  Write a Review
+</Button>
+
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4, height: '500px' }}>
@@ -587,9 +594,9 @@ const DressDetails = () => {
                   <Box key={review.id} mb={3} position="relative">
                     {userRole === 'admin' && (
                       <Box position="absolute" top={0} right={0}>
-                        <IconButton size="small" color="primary" onClick={() => handleEditReview(review)}>
+                        {/* <IconButton size="small" color="primary" onClick={() => handleEditReview(review)}>
                           <Edit fontSize="small" />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton size="small" color="error" onClick={() => handleDeleteReview(review.id)}>
                           <Delete fontSize="small" />
                         </IconButton>
