@@ -171,6 +171,7 @@ const MovieReview = () => {
         <Grid container spacing={4} justifyContent="center">
           {loading
             ? Array.from({ length: 4 }).map((_, index) => (
+                <Box sx={{ overflowX: "hidden", padding: 1 }}>
                 <Grid item key={index}>
                   <Card sx={{ width: "400px", height: "370px" }}>
                     <Skeleton variant="rectangular" width={400} height={300} />
@@ -179,6 +180,7 @@ const MovieReview = () => {
                     </CardContent>
                   </Card>
                 </Grid>
+                </Box>
               ))
             : movies.map((movie) => (
                 <Box sx={{ overflowX: "hidden", padding: 1 }}>

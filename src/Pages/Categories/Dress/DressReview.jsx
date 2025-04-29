@@ -174,9 +174,11 @@ const DressReview = () => {
           {loading
             ? // Show skeleton while loading
               Array.from({ length: 4 }).map((_, index) => (
+                <Box sx={{ overflowX: "hidden", padding: 1 }}>
                 <Grid item key={index}>
                   <Skeleton variant="rectangular" width={400} height={370} />
                 </Grid>
+                </Box>
               ))
             : dresses.map((dress) => (
                 <Box sx={{ overflowX: "hidden", padding: 1 }}>
