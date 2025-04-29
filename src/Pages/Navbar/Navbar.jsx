@@ -68,10 +68,10 @@ const Navbar = () => {
   alt="CritiCore Logo"
   style={{ width: '40px', height: '40px', marginRight: '10px', borderRadius: '50%' }}
 />
-  <a className="navbar-brand" href="/">CritiCore</a>
+  <a className="navbar-brand" href="/Dashboard">CritiCore</a>
 </div>
 
-          {/* <a className="navbar-brand" href="/">CritiCore</a> */}
+
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch">
             <span className="navbar-toggler-icon"></span>
           </button>

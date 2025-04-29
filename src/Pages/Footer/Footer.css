@@ -28,4 +28,21 @@
   .footer .social-icons svg:hover {
     color: #fff;
   }
-  
+
+@media (max-width: 320px) {
+  .footer .col-md-3 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .footer .social-icons {
+    justify-content: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .footer .text-center {
+    font-size: 0.8rem;
+  }
+}
+
