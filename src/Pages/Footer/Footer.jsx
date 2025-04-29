@@ -1,15 +1,14 @@
-import React from 'react';
-import './Footer.css';
-import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import React from "react";
+import "./Footer.css";
+import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <footer className="footer text-light py-5">
       <div className="container">
         <div className="row">
-
           {/* Products/Services */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ "text-align": "center" }}>
             <h5>FEATURES</h5>
             <ul className="list-unstyled">
               <li>Submit Reviews</li>
@@ -21,7 +20,7 @@ const Footer = () => {
           </div>
 
           {/* About */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ "text-align": "center" }}>
             <h5>ABOUT US</h5>
             <ul className="list-unstyled">
               <li>Our Story</li>
@@ -32,7 +31,7 @@ const Footer = () => {
           </div>
 
           {/* Categories */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ "text-align": "center" }}>
             <h5>CATEGORIES</h5>
             <ul className="list-unstyled">
               <li>Electronics</li>
@@ -44,13 +43,15 @@ const Footer = () => {
           </div>
 
           {/* Tools & Contact */}
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ "text-align": "center" }}>
             <h5>CONTACT</h5>
             <ul className="list-unstyled">
               <li>Help Center</li>
               <li>Partner with Us</li>
               <li>Feedback</li>
-              <li><strong>Call:</strong> 888-555-2025</li>
+              <li>
+                <strong>Call:</strong> 888-555-2025
+              </li>
               <li className="social-icons mt-2">
                 <FaFacebook className="me-2" />
                 <FaTwitter className="me-2" />
@@ -58,11 +59,11 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
         </div>
 
         <div className="text-center mt-4 small">
-          © {new Date().getFullYear()} ReviewPlatform | Terms | Privacy | Contact | Sitemap
+          © {new Date().getFullYear()} ReviewPlatform | Terms | Privacy |
+          Contact | Sitemap
         </div>
       </div>
     </footer>
@@ -70,5 +71,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-
