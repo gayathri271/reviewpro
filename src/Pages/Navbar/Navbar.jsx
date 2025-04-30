@@ -1,14 +1,13 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
-import { toast, ToastContainer } from 'react-toastify';
-import { Modal, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import './Navbar.css'
+import { toast, ToastContainer } from "react-toastify";
+import { Modal, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -18,7 +17,7 @@ const Navbar = () => {
   const handleConfirmLogout = () => {
     signOut(auth)
       .then(() => {
-        toast.success('Logout Successful!');
+        toast.success("Logout Successful!");
         navigate("/login");
       })
       .catch((error) => {
@@ -31,72 +30,106 @@ const Navbar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const term = searchTerm.trim().toLowerCase();
-  
+
     // Define items under each category
-    const movieItems = ['falaknama das', 'hii nanna', 'yeh jaawani yeh deewani', 'khaleja'];
-    const foodItems = ['dosa', 'biryani','chicken biryani', 'chicken tikka', 'pizza'];
-    const fashionItems = ['anarkali', 'mini dress', 'cocktail dress', 'saree'];
-  
+    const movieItems = [
+      "falaknama das",
+      "hii nanna",
+      "yeh jaawani yeh deewani",
+      "khaleja",
+    ];
+    const foodItems = [
+      "dosa",
+      "biryani",
+      "chicken biryani",
+      "chicken tikka",
+      "pizza",
+    ];
+    const fashionItems = ["anarkali", "mini dress", "cocktail dress", "saree"];
+
     // Check for categories
-    if (term.includes('movie')) {
-      navigate('/MovieReview');
-    } else if (term.includes('food')) {
-      navigate('/FoodReview');
-    } else if (term.includes('dress') || term.includes('fashion')) {
-      navigate('/DressReview');
-  
-    // Check for individual items inside categories
+    if (term.includes("movie")) {
+      navigate("/MovieReview");
+    } else if (term.includes("food")) {
+      navigate("/FoodReview");
+    } else if (term.includes("dress") || term.includes("fashion")) {
+      navigate("/DressReview");
+
+      // Check for individual items inside categories
     } else if (movieItems.includes(term)) {
-      navigate('/MovieReview');
+      navigate("/MovieReview");
     } else if (foodItems.includes(term)) {
-      navigate('/FoodReview');
+      navigate("/FoodReview");
     } else if (fashionItems.includes(term)) {
-      navigate('/DressReview');
+      navigate("/DressReview");
     } else {
-      alert('No matching category or item found!');
+      alert("No matching category or item found!");
     }
   };
-  
 
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-        <div className="d-flex align-items-center">
-        <img
-  src="https://www.shutterstock.com/image-vector/customer-satisfaction-icon-on-white-260nw-1205032477.jpg"
-  alt="CritiCore Logo"
-  style={{ width: '40px', height: '40px', marginRight: '10px', borderRadius: '50%' }}
-/>
-  <a className="navbar-brand" href="/Dashboard">CritiCore</a>
-</div>
+          <div className="d-flex align-items-center">
+            <img
+              src="https://www.shutterstock.com/image-vector/customer-satisfaction-icon-on-white-260nw-1205032477.jpg"
+              alt="CritiCore Logo"
+              style={{
+                width: "40px",
+                height: "40px",
+                marginRight: "10px",
+                borderRadius: "50%",
+              }}
+            />
+            <a className="navbar-brand" href="/Dashboard">
+              CritiCore
+            </a>
+          </div>
 
-
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSearch"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse justify-content-between" id="navbarSearch">
+          <div
+            className="collapse navbar-collapse justify-content-between"
+            id="navbarSearch"
+            // style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <form
+              className="d-flex mx-auto"
+              role="search"
+              onSubmit={handleSearch}
+            >
+              <div className="input-group">
+                <input
+                  className="form-control"
+                  type="search"
+                  placeholder="Browse for category or item..."
+                  aria-label="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ opacity: 0.5 }}
+                />
+                <button className="btn btn-outline-light" type="submit">
+                  <i className="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
 
-            <form className="d-flex mx-auto" role="search" onSubmit={handleSearch}>
-  <div className="input-group">
-    <input
-      className="form-control"
-      type="search"
-      placeholder="Browse for category or item..."
-      aria-label="Search"
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      style={{ opacity: 0.5 }}
-    />
-    <button className="btn btn-outline-light" type="submit">
-      <i className="fas fa-search"></i>
-    </button>
-  </div>
-</form>
-            <button className="btn btn-outline-light" onClick={handleShowLogoutModal} style={{ whiteSpace: 'nowrap' }}>
-              Logout
-            </button>
+              <button
+                className="btn btn-outline-light"
+                onClick={handleShowLogoutModal}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                Logout
+              </button>
+
           </div>
         </div>
       </nav>
@@ -120,6 +153,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-

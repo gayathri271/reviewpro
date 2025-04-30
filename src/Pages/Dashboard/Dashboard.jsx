@@ -13,8 +13,6 @@ import Navbar from '../Navbar/Navbar';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true); // Add loading state
-  
-  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,22 +30,6 @@ const Dashboard = () => {
   };
 
   
-  // useEffect(() => {
-  //   const handleResize = () => setWindowWidth(window.innerWidth);
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, [])
-
-
-  // const carouselImageStyle = {
-  //   height: windowWidth <= 320 ? "200px" : "500px",
-  //   objectFit: "cover",
-  // };
-  // const captionStyle = {
-  //   fontSize: windowWidth <= 320 ? "1rem" : "2rem",
-  // };
-  
-
   return (
     <div>
       {/* Navbar */}
@@ -86,8 +68,6 @@ const Dashboard = () => {
     <div className="carousel-item">
       <img
         src="https://d2line.com/thatlook/wp-content/uploads/sites/4/2022/02/cover-4-800x600.png"
-        // src="https://www.shutterstock.com/image-photo/fashion-young-african-girl-black-600nw-1420132757.jpg"
-
         className="d-block w-100"
         alt="Fashion"
       />
@@ -108,71 +88,6 @@ const Dashboard = () => {
     <span className="visually-hidden">Next</span>
   </button>
 </div>
-
-{/* <div
-      id="heroCarousel"
-      className="carousel slide w-100"
-      data-bs-ride="carousel"
-    >
-      <div className="carousel-inner">
-      <div className="carousel-item active">
-          <img
-            src="https://www.deputy.com/uploads/2018/10/The-Most-Popular-Menu-Items-That-You-should-Consider-Adding-to-Your-Restaurant_Content-image1-min-1024x569.png"
-            className="d-block w-100"
-            alt="Food"
-            style={carouselImageStyle}
-          />
-          <div className="carousel-caption d-none d-md-block">
-            <h1 style={captionStyle}>Food Delights</h1>
-            <p>Delicious bites and exotic dishes.</p>
-          </div>
-        </div>
-        <div className="carousel-item active">
-          <img
-            src="https://www.pinkvilla.com/images/2025-04/703972861_madsquare-6-days-breakeven-main-image.jpg"
-            className="d-block w-100"
-            alt="Food"
-            style={carouselImageStyle}
-          />
-          <div className="carousel-caption d-none d-md-block">
-            <h1 style={captionStyle}>Movie Magic</h1>
-            <p>Lights, camera, entertainment!</p>
-          </div>
-        </div>
-        <div className="carousel-item active">
-          <img
-            src="https://www.shutterstock.com/image-photo/fashion-young-african-girl-black-600nw-1420132757.jpg"
-            className="d-block w-100"
-            alt="Food"
-            style={carouselImageStyle}
-          />
-          <div className="carousel-caption d-none d-md-block">
-            <h1 style={captionStyle}>Trendy Fashion</h1>
-            <p>Style that speaks volumes.</p>
-          </div>
-        </div>
-       
-      </div>
-
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#heroCarousel"
-        data-bs-slide="prev"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#heroCarousel"
-        data-bs-slide="next"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div> */}
 
 
 
