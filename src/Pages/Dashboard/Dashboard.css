@@ -63,6 +63,48 @@ body {
   object-fit: cover;
 }
 
+
+
+@media (max-width: 480px) {
+
+  .carousel,
+  .carousel-inner,
+  .carousel-item {
+  
+    height: auto; /* reduce height */
+  
+  }
+  
+
+  .carousel-item img {
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .carousel-caption {
+    bottom: 12px;
+    padding: 0 8px;
+  }
+
+  .carousel-caption h1 {
+    font-size: 0.95rem;
+  }
+
+  .carousel-caption p {
+    font-size: 0.6rem;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+
+
+
+
 @media (max-width: 768px) {
   .card-img-top {
     height: 150px;
